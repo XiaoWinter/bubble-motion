@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<!--<canvas id="canvas"></canvas>-->
+<img src="img/山丘.jpg" alt="" onClick="run()">
+<script src="js/rainyday.js"></script>
+<script>
+    // let canvas = document.querySelector('#canvas');
+    function run(){
+        let img = document.querySelector('img');
+        img.onload = function () {
+            var oEngine = new RainyDay({
+                image: this,
+            });
+            oEngine.rain([
+                [10, 20, 20]
+            ]); //设定雨滴大小 1,2  数量5000(宽、高、雨点量)
+            oEngine.rain([
+                [3, 3, 33],
+                [5, 5, 44],
+                [6, 2, 55]
+            ], 500); //设定雨滴重复时间 100ms(宽、高、)
+        };
+        img.crossOrigin = "anonymous";
+        img.src = 'img/山丘.jpg';
+    }
+
+
+
+</script>
+</body>
+</html>

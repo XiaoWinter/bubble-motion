@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <canvas id="canvas" width="1300" height="750"></canvas>
+    <script>
+        (()=>{
+            document.addEventListener('DOMContentLoaded',function(){
+                //业务
+                let canvas = document.querySelector('#canvas');
+                let ctx = canvas.getContext('2d');
+                let circles = [];
+                setInterval(function () {
+                    genareteCircle();
+                },50);
+
+                setInterval(function () {
+                    // circleRun2();
+                    // circleRun();
+                    testRun();
+
+                },16);
+
+                //生成圆
+                function genareteCircle() {
+                    let circle = {};
+                    circle.x = 400+Math.floor(Math.random()*(canvas.width-800));
+                    circle.y = Math.floor(Math.random()*(canvas.height));
+
+                    circle.r = Math.ceil(Math.random()* 20);
+                    circle.deltaAngle = 0;
+                    circle.deltay = 0;
+                    circle.color = {};
+                    circle.color.r = Math.floor(Math.random()*256);
+                    circle.color.g = Math.floor(Math.random()*256);
+                    circle.color.b = Math.floor(Math.random()*256);
+                    circle.color.a = 1;
+                    circles.push(circle);
+                }
+
+                /**
+                 * 使气泡围绕圆形运动
+                 */
+                function circleRun2() {
+                    ctx.clearRect(0,0,canvas.width,canvas.height);
+                    //半径100()
+                    //中心
+                    let runr = {
+                        x:canvas.width/2,
+                        y:canvas.height/2
+                    };
+
+
+                    if (circles.length > 155){
+                        circles.shift();
+                    }
+                    // console.log(circles.length);
+
+                    circles.forEach(function (circle,index) {
+                        cr = Math.pow(Math.pow((runr.x - circle.x),2)+Math.pow((runr.y - circle.y),2),0.5);
+
+                        if (circle.color.a < 0){
+                            circles.splice(index,1);
+                        }
+                        console.log(cr);
+
+                        // 圆心
+                        circle.deltaAngle++;
+                        let x = cr * Math.cos(circle.deltaAngle/180*Math.PI);
+                        let y = cr * Math.sin(circle.deltaAngle/180*Math.PI);
+
+
+                        ctx.beginPath();
+                        ctx.arc((runr.x+x),(runr.y+y),circle.r,0,Math.PI*2);
+                        ctx.fillStyle = 'rgba('+circle.color.r+','+circle.color.g+','+circle.color.b+','+(circle.color.a)+')';
+                        ctx.fill();
+
+                    });
+
+                }
+
+                /**
+                 * 正弦运动，有点风暴的效果
+                 */
+                function circleRun() {
+                    ctx.clearRect(0,0,canvas.width,canvas.height);
+                    circles.forEach(function (circle,index) {
+                        if (circle.deltay>canvas.height){
+                            circles.splice(index,1);
+                            return;
+                        }
+                        ctx.beginPath();
+                        circle.deltay+=2;
+                        let x = 300*Math.sin(circle.deltay/180*Math.PI);
+                        ctx.arc((circle.x+x),(circle.y-circle.deltay),circle.r,0,Math.PI*2);
+                        ctx.fillStyle = 'rgba('+circle.color.r+','+circle.color.g+','+circle.color.b+','+circle.color.a+')';
+                        ctx.fill();
+                    });
+                }
+
+
+                /**
+                 * 以生成的圆的圆心为圆运动的圆心，到固定某点的距离为半径，运动，效果为所有气泡运动时都会经过某点
+                 */
+                function testRun() {
+                    ctx.clearRect(0,0,canvas.width,canvas.height);
+                    //半径100()
+                    //中心
+                    let runr = {
+                        x:canvas.width/2,
+                        y:canvas.height/2
+                    };
+
+
+                    if (circles.length > 155){
+                        circles.shift();
+                    }
+                    // console.log(circles.length);
+
+                    circles.forEach(function (circle,index) {
+                        cr = Math.pow(Math.pow((runr.x - circle.x),2)+Math.pow((runr.y - circle.y),2),0.5);
+
+                        if (circle.color.a < 0){
+                            circles.splice(index,1);
+                        }
+                        console.log(cr);
+
+                        // 圆心
+                        circle.deltaAngle++;
+                        let x = cr * Math.cos(circle.deltaAngle/180*Math.PI);
+                        let y = cr * Math.sin(circle.deltaAngle/180*Math.PI);
+
+
+                        ctx.beginPath();
+                        ctx.arc((circle.x+x),(circle.y+y),circle.r,0,Math.PI*2);
+                        ctx.fillStyle = 'rgba('+circle.color.r+','+circle.color.g+','+circle.color.b+','+(circle.color.a)+')';
+                        ctx.fill();
+
+                    });
+
+                }
+
+            });
+        })();
+    </script>
+</body>
+</html>

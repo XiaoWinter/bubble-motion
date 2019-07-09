@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas id="canvas" width="1000" height="750" style="background-color: gainsboro"></canvas>
+</body>
+<script>
+    (()=>{
+        document.addEventListener('DOMContentLoaded',function(){
+            //业务
+            let canvas = document.querySelector('#canvas');
+            let ctx = canvas.getContext('2d');
+            let circles = [];
+
+            setInterval(function () {
+                genareteCircle();
+            },50);
+
+            setInterval(function () {
+                circleRun();
+            },16);
+            //生成雪花
+            function genareteCircle() {
+                let circle = {};
+                circle.x = Math.floor(Math.random()*canvas.width);
+                circle.y = Math.floor(Math.random()*canvas.height);
+                // circle.y = 0;
+                circle.r = Math.ceil(Math.random()* 10);
+                circle.deltay = 0;
+                // circle.r = 8;
+                circle.color = {};
+                circle.color.r = Math.floor(Math.random()*256);
+                circle.color.g = Math.floor(Math.random()*256);
+                circle.color.b = Math.floor(Math.random()*256);
+                circle.color.a = 1;
+                circles.push(circle);
+            }
+            // 雪花运动
+            function circleRun(){
+                ctx.clearRect(0,0,canvas.width,canvas.height);
+                circles.forEach(function (circle, index) {
+                    circle.deltay++;
+
+                    ctx.beginPath();
+                    ctx.arc(circle.x,(circle.y+circle.deltay),(circle.r),0,Math.PI*2);
+                    ctx.fillStyle = 'rgba('+circle.color.r+','+circle.color.g+','+circle.color.b+','+circle.color.a+')';
+                    ctx.fill();
+                });
+            }
+        });
+    })();
+</script>
+
+</html>

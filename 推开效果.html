@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body,html{
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        *{
+            margin: 0;
+            padding: 0;
+
+        }
+        /*3d舞台*/
+        .stage{
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+       /*转动page*/
+        .page{
+            width: 500px;
+            height: 300px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            background-color: purple;
+            transition: 1s;
+
+        }
+        .page:nth-child(1){
+            animation: hiddenmove 4s infinite alternate ease-in;
+        }
+        .page:nth-child(2){
+            background-color: #ddeeaa;
+            animation: showmove 4s infinite alternate ease-in;
+        }
+        /*效果的主要实现依赖hiddenmove动画：
+        使要隐藏的page从translateZ(200px)运动到translateZ(-200px)*/
+        @keyframes  hiddenmove{
+            /*初始位置*/
+            0%{
+                transform: translateZ(200px);
+            }
+            50%{
+                /*横拉加旋转，向左移动状*/
+                transform: translate(-200px) rotateY(45deg) ;
+            }
+            100%{
+                /*最终状态隐于下方*/
+                transform: translateZ(-200px);
+            }
+        }
+        /*showmove动画只做普通的左右移动即可*/
+        @keyframes showmove {
+            0%{
+
+            }
+            50%{
+                /*横拉加旋转，向右移动状*/
+                transform: translate(200px) rotateY(-45deg) ;
+            }
+            100%{
+
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <!--    3d舞台-->
+    <div class="stage">
+<!--        旋转page-->
+        <div class="page"></div>
+        <div class="page"></div>
+    </div>
+</body>
+</html>
